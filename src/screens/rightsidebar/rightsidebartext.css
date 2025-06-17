@@ -1,0 +1,39 @@
+/* src/screens/RightSidebar.tsx */
+.textrightsidebartitle {
+  text-align: left;
+  font-size: 30px;
+  margin-top: 3px;
+  padding-left: 15px;
+  color: #545454;
+  opacity: 0;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-right {
+  animation: fadeInRight 0.45s ease-out forwards;
+}
+
+@keyframes fadeOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(0px); /* 右へスライド */
+  }
+}
+
+.fade-out-right {
+  animation: fadeOutRight 0.1s ease-out forwards;
+}

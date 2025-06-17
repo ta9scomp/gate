@@ -1,0 +1,88 @@
+.hamburger-button {
+  position: fixed;
+  top: 12px;
+  right: 20px;
+  background: none;
+  border: none;
+  width: 32px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 30; /* サイドバーよりも前に出す */
+}
+
+.bar {
+  height: 3px;
+  width: 100%;
+  border-radius: 3px; /* 角の丸みの大きさ */
+  background-color: black;
+  /* opacityのtransitionはReactに任せるので削除または短く */
+  /* transition: opacity 1.0s ease-in-out; 削除 */
+  transform-origin: right; /* 右端起点 */
+}
+
+/* ホバー中に透明度を0.5にする */
+.hamburger-button:hover .bar {
+  opacity: 0.5;
+  transition-duration: 0.15s;
+}
+
+/* 各バーにホバー時のアニメーションを個別に適用 */
+.hamburger-button:hover .bar:nth-child(1) {
+  animation: shrinkBounce1 0.4s ease-in-out forwards;
+  animation-delay: 0s;
+}
+
+.hamburger-button:hover .bar:nth-child(2) {
+  animation: shrinkBounce2 0.7s ease-in-out forwards;
+  animation-delay: 0.1s;
+}
+
+.hamburger-button:hover .bar:nth-child(3) {
+  animation: shrinkBounce3 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+/* 右端を起点に幅を60%に縮めて元に戻すアニメーション */
+/* 1本目 */
+@keyframes shrinkBounce1 {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.6);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* 2本目 */
+@keyframes shrinkBounce2 {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.3);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* 3本目 */
+@keyframes shrinkBounce3 {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.7);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
