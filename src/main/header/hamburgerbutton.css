@@ -1,3 +1,4 @@
+/* src/main/header/hamburgerbutton.css*/
 .hamburger-button {
   position: fixed;
   top: 12px;
@@ -11,7 +12,7 @@
   justify-content: space-between;
   cursor: pointer;
   padding: 5px;
-  z-index: 30; /* サイドバーよりも前に出す */
+  z-index: 130; /* サイドバーよりも前に出す */
 }
 
 .bar {

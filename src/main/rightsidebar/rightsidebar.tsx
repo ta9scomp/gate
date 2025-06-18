@@ -1,43 +1,39 @@
 // src/main/rightsidebar.tsx
+import { Sidebar } from "lucide-react";
 import { useState } from "react";
 import "./rightsidebar.css";
 import "./rightsidebartext.css";
-import HamburgerButton from "./hamburgerbutton";
-import "./hamburgerbutton.css";
 
-const RightSidebar = () => {
-  const [showRightSidebar, setShowRightSidebar] = useState(false);
+type RightSidebarProps = {
+  show: boolean;
+  onClose: () => void;
+};
 
+const RightSidebar: React.FC<RightSidebarProps> = ({ show, onClose }) => {
   return (
-    <div>
-      <div className="content">
-        <HamburgerButton
-          onClick={() => setShowRightSidebar(!showRightSidebar)}
-        />
-      </div>
-
+    <>
       <div
         className={
-          showRightSidebar
+          show
             ? "rightsidebar rightsidebar-show"
             : "rightsidebar rightsidebar-hidden"
         }
       >
         <h2
-          className={`textrightsidebartitle ${showRightSidebar ? "fade-in-right" : "fade-out-right"}`}
+          className={`textrightsidebartitle ${show ? "fade-in-right" : "fade-out-right"}`}
         >
           side
         </h2>
       </div>
       <div
-        className={`overlay ${showRightSidebar ? "overlay-show" : ""}`}
-        onClick={() => setShowRightSidebar(false)}
+        className={`overlay ${show ? "overlay-show" : ""}`}
+        onClick={onClose}
       />
       <div
-        className={`overlay-slide ${showRightSidebar ? "show" : ""}`}
-        onClick={() => setShowRightSidebar(false)}
+        className={`overlay-slide ${show ? "show" : ""}`}
+        onClick={onClose}
       />
-    </div>
+    </>
   );
 };
 

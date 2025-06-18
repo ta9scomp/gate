@@ -1,3 +1,4 @@
+// src/main/header/hamburgerbutton.tsx
 import React, { useState, useEffect } from 'react';
 import './hamburgerbutton.css';
 
@@ -10,23 +11,22 @@ export default function HamburgerButton({ onClick }: HamburgerButtonProps) {
   const [opacity, setOpacity] = useState(1);
   const [transitionDuration, setTransitionDuration] = useState('0.4s');
 
-useEffect(() => {
-  let timer: ReturnType<typeof setTimeout>;
-  if (hover) {
-    setTransitionDuration('0.1s');
-    setOpacity(0.4);
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (hover) {
+      setTransitionDuration('0.1s');
+      setOpacity(0.4);
+      timer = setTimeout(() => {
+        setTransitionDuration('0.4s');
+        setOpacity(0.56);
+      }, 200);
+    } else {
+      setTransitionDuration('0.45s');
+      setOpacity(1);
+    }
 
-    timer = setTimeout(() => {
-      setTransitionDuration('0.4s');
-      setOpacity(0.56);
-    }, 200); // 200ms 後に0.56に変更（0.4の状態を200msキープ）
-  } else {
-    setTransitionDuration('0.45s');
-    setOpacity(1);
-  }
-
-  return () => clearTimeout(timer);
-}, [hover]);
+    return () => clearTimeout(timer);
+  }, [hover]);
 
   return (
     <div
