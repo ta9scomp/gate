@@ -1,0 +1,26 @@
+/* src/main/calendar/calendarbody.css */
+.calendar-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-bottom: 1px solid #aaa;
+  user-select: none;
+
+  /* スクロールバーを非表示（Webkitベース） */
+  scrollbar-width: none;           /* Firefox */
+  -ms-overflow-style: none;        /* IE/Edge */
+}
+
+.calendar-wrapper::-webkit-scrollbar {
+  display: none;                   /* Chrome/Safari */
+}
+
+.date-cell {
+  font-size: 14px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.date-cell.today {
+  background-color: #c7feff;
+  font-weight: bold;
+}

@@ -10,6 +10,7 @@ import { calculateRenderedTasks } from "./main/tasks/calculateRenderedTasks";
 import TaskBody from "./main/tasks/taskbody";
 import { sampleTasks } from "./main/tasks/sampletask";
 import RippleTest from "./main/tasks/rippletest";
+import CalendarBody from "./main/calendar/calendarbody";
 
 function App() {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -33,17 +34,18 @@ function App() {
 
   return (
     <div>
-      {/* ✅ ヘッダーを最上部に追加 */}
+      {/* ヘッダーを最上部に表示 */}
       <Header onHamburgerClick={() => setShowRightSidebar((prev) => !prev)} />
 
-      {/* ✅ 右サイドバーは状態に応じて */}
+      {/* 右サイドバー　設定パネル */}
       <RightSidebar
         show={showRightSidebar}
         onClose={() => setShowRightSidebar(false)}
       />
+      {/* カレンダー本体 */}
+      <CalendarBody/>
 
-
-      {/* ✅ 本文 */}
+      {/* 開発用検証スペース */}
       <TaskBody tasks={renderedTasks} />
       <Selecteicons />
       <RippleTest />

@@ -25,6 +25,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.1",
     "@mui/material": "^7.1.1",
+    "@tanstack/react-virtual": "^3.13.10",
     "lucide-react": "^0.516.0"
   }
 }

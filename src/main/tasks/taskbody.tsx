@@ -1,11 +1,11 @@
-// src/main/tasks/taskstyle.css
+// src/main/tasks/taskbody.tsx
 import React, { useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { RenderedTask } from "./tasktypes";
 import "./taskstyle.css";
 
 const createRipple = (event: React.MouseEvent<HTMLDivElement>) => {
-  const target = event.currentTarget; // .ta 要素
-
+  const target = event.currentTarget;
   const ripple = document.createElement("span");
   const diameter = Math.max(target.clientWidth, target.clientHeight);
   const radius = diameter / 2;
@@ -15,15 +15,12 @@ const createRipple = (event: React.MouseEvent<HTMLDivElement>) => {
   ripple.style.top = `${event.clientY - target.getBoundingClientRect().top - radius}px`;
   ripple.className = "ripple";
 
-  // 複数Rippleが重ならないように、個別に削除する
   target.appendChild(ripple);
-
-  ripple.addEventListener("animationend", () => {
-    ripple.remove();
-  });
+  ripple.addEventListener("animationend", () => ripple.remove());
 };
 
 const TaskBody: React.FC<{ tasks: RenderedTask[] }> = ({ tasks }) => {
+  const parentRef = useRef<HTMLDivElement>(null);
   const longPressTimer = useRef<number | null>(null);
 
   const handleMouseDown = (taskId: string) => {
@@ -39,36 +36,33 @@ const TaskBody: React.FC<{ tasks: RenderedTask[] }> = ({ tasks }) => {
     }
   };
 
-  if (tasks.length === 0) return null;
 
-  const start = new Date(
-    Math.min(...tasks.map((t) => new Date(t.start).getTime())),
-  );
-  const end = new Date(
-    Math.max(...tasks.map((t) => new Date(t.end).getTime())),
-  );
+  const allDates = React.useMemo(() => {
+    const start = new Date(Math.min(...tasks.map((t) => new Date(t.start).getTime())));
+    const end = new Date(Math.max(...tasks.map((t) => new Date(t.end).getTime())));
+    const dates: string[] = [];
+    const current = new Date(start);
+    while (current <= end) {
+      dates.push(current.toISOString().slice(0, 10));
+      current.setDate(current.getDate() + 1);
+    }
+    return dates;
+  }, [tasks]);
+
+
   const today = new Date().toISOString().slice(0, 10);
 
-  const dateRange: string[] = [];
-  const current = new Date(start);
-  while (current <= end) {
-    dateRange.push(current.toISOString().slice(0, 10));
-    current.setDate(current.getDate() + 1);
-  }
+  const virtualizer = useVirtualizer({
+    count: allDates.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 40,
+    horizontal: true,
+  });
+
+  if (tasks.length === 0) return null;
 
   return (
-    <div className="chart-wrapper">
-      <div className="chart-dates">
-        {dateRange.map((date) => (
-          <div
-            key={date}
-            className={`date-cell ${date === today ? "today" : ""}`}
-          >
-            {date.slice(5)}
-          </div>
-        ))}
-      </div>
-
+    <div className="chart-wrapper" ref={parentRef}>
       <div className="task-list">
         {tasks.map((task) => (
           <div className="task-row" key={task.id}>
