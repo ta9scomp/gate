@@ -41,20 +41,22 @@
   overflow: hidden;
 }
 
-/* タスクバー自体 */
-.task-bar {
-  height: 30px;
-  width: 100%;
-  border-radius: 5px;
-  color: white;
-  padding: 2px 6px;
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
+.task-label {
+  width: 150px;             /* 左側のラベル幅 */
+  padding-left: 8px;
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.task-bar {
+  height: 16px;
+  background-color: #4caf50;
+  border-radius: 4px;
 }
+
 
 /* Ripple エフェクト */
 .ripple {

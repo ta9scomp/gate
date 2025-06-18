@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ onHamburgerClick }) => {
       <div className="header-left">
         <HamburgerButton onClick={onHamburgerClick} />
       </div>
-      <div className="text1">TaskFlow</div>
+      <div className="text1">TasQFlow</div>
       <div className="header-right">{/* 右側スペース（将来用） */}</div>
     </header>
   );

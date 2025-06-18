@@ -1,4 +1,3 @@
-// src/main/header/hamburgerbutton.tsx
 import React, { useState, useEffect } from 'react';
 import './hamburgerbutton.css';
 
@@ -10,15 +9,17 @@ export default function HamburgerButton({ onClick }: HamburgerButtonProps) {
   const [hover, setHover] = useState(false);
   const [opacity, setOpacity] = useState(1);
   const [transitionDuration, setTransitionDuration] = useState('0.4s');
+  const [clicked, setClicked] = useState(false); // クリックアニメ用
 
+  // ホバー時の透明度処理
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (hover) {
       setTransitionDuration('0.1s');
-      setOpacity(0.4);
+      setOpacity(0.5);
       timer = setTimeout(() => {
-        setTransitionDuration('0.4s');
-        setOpacity(0.56);
+        setTransitionDuration('0.3s');
+        setOpacity(0.65);
       }, 200);
     } else {
       setTransitionDuration('0.45s');
@@ -28,10 +29,28 @@ export default function HamburgerButton({ onClick }: HamburgerButtonProps) {
     return () => clearTimeout(timer);
   }, [hover]);
 
+  // クリック時：アニメーション発火 & 外部処理実行
+  const handleClick = () => {
+    setClicked(true);
+    onClick();
+
+    // hover中にクリック → 再発火させる
+    if (hover) {
+      setHover(false);
+      setTimeout(() => {
+        setHover(true);
+      }, 0);
+    }
+
+    setTimeout(() => {
+      setClicked(false);
+    }, 800);
+  };
+
   return (
     <div
-      className="hamburger-button"
-      onClick={onClick}
+      className={`hamburger-button ${clicked ? 'clicked' : ''}`} // クラス付与
+      onClick={handleClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{

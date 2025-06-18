@@ -23,7 +23,6 @@ const createRipple = (event: React.MouseEvent<HTMLDivElement>) => {
   });
 };
 
-
 const TaskBody: React.FC<{ tasks: RenderedTask[] }> = ({ tasks }) => {
   const longPressTimer = useRef<number | null>(null);
 
@@ -72,24 +71,20 @@ const TaskBody: React.FC<{ tasks: RenderedTask[] }> = ({ tasks }) => {
 
       <div className="task-list">
         {tasks.map((task) => (
-          <div
-            key={task.id}
-            className="ta"
-            style={{
-              marginLeft: `${task.marginLeft}px`,
-              width: `${task.width}px`,
-            }}
-          >
+          <div className="task-row" key={task.id}>
+            <div className="task-label">{task.title}</div>
             <div
               className="task-bar"
               onClick={createRipple}
               onMouseDown={() => handleMouseDown(task.id)}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
-              style={{ backgroundColor: task.color }}
-            >
-              {task.title}
-            </div>
+              style={{
+                backgroundColor: task.color,
+                marginLeft: `${task.marginLeft}px`,
+                width: `${task.width}px`,
+              }}
+            />
           </div>
         ))}
       </div>
