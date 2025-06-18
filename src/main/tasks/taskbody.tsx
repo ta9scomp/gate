@@ -1,6 +1,6 @@
 // src/main/tasks/taskbody.tsx
 import React, { useRef } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { FixedSizeList as List } from "react-window";
 import { RenderedTask } from "./tasktypes";
 import "./taskstyle.css";
 
@@ -20,7 +20,6 @@ const createRipple = (event: React.MouseEvent<HTMLDivElement>) => {
 };
 
 const TaskBody: React.FC<{ tasks: RenderedTask[] }> = ({ tasks }) => {
-  const parentRef = useRef<HTMLDivElement>(null);
   const longPressTimer = useRef<number | null>(null);
 
   const handleMouseDown = (taskId: string) => {
@@ -36,52 +35,37 @@ const TaskBody: React.FC<{ tasks: RenderedTask[] }> = ({ tasks }) => {
     }
   };
 
-
-  const allDates = React.useMemo(() => {
-    const start = new Date(Math.min(...tasks.map((t) => new Date(t.start).getTime())));
-    const end = new Date(Math.max(...tasks.map((t) => new Date(t.end).getTime())));
-    const dates: string[] = [];
-    const current = new Date(start);
-    while (current <= end) {
-      dates.push(current.toISOString().slice(0, 10));
-      current.setDate(current.getDate() + 1);
-    }
-    return dates;
-  }, [tasks]);
-
-
-  const today = new Date().toISOString().slice(0, 10);
-
-  const virtualizer = useVirtualizer({
-    count: allDates.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 40,
-    horizontal: true,
-  });
-
   if (tasks.length === 0) return null;
 
   return (
-    <div className="chart-wrapper" ref={parentRef}>
-      <div className="task-list">
-        {tasks.map((task) => (
-          <div className="task-row" key={task.id}>
-            <div className="task-label">{task.title}</div>
-            <div
-              className="task-bar"
-              onClick={createRipple}
-              onMouseDown={() => handleMouseDown(task.id)}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              style={{
-                backgroundColor: task.color,
-                marginLeft: `${task.marginLeft}px`,
-                width: `${task.width}px`,
-              }}
-            />
-          </div>
-        ))}
-      </div>
+    <div className="chart-wrapper" style={{ height: "600px", width: "100%" }}>
+      <List
+        height={600} // 表示領域の高さ
+        itemCount={tasks.length}
+        itemSize={40} // 各タスク行の高さ（必要に応じて調整）
+        width="100%"
+      >
+        {({ index, style }) => {
+          const task = tasks[index];
+          return (
+            <div className="task-row" key={task.id} style={style}>
+              <div className="task-label">{task.title}</div>
+              <div
+                className="task-bar"
+                onClick={createRipple}
+                onMouseDown={() => handleMouseDown(task.id)}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                style={{
+                  backgroundColor: task.color,
+                  marginLeft: `${task.marginLeft}px`,
+                  width: `${task.width}px`,
+                }}
+              />
+            </div>
+          );
+        }}
+      </List>
     </div>
   );
 };
